@@ -2,13 +2,16 @@ name: Deploy html
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
-    steps:
+    steps:       
+      - name: Checkout # checkout
+        uses: actions/checkout@v2
+        
       - name: Setup aliyun oss
         uses: sqwatermark/setup-ossutil@v3.0
         with:
@@ -24,4 +27,4 @@ jobs:
       - name: Deploy docs
         # 发布文档 
         # 推送dist的目录文件到对应存储桶，强制同步
-        run: ossutil sync ./ oss://sqwatermark/mcbbs/ -f --delete
+        run: ossutil sync ./site/ oss://sqwatermark/mcbbs-texture-index/ -f --delete
