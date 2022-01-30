@@ -2,13 +2,13 @@ name: Deploy html
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
-    steps:
+    steps:        
       - name: Setup aliyun oss
         uses: sqwatermark/setup-ossutil@v3.0
         with:
