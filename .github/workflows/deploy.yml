@@ -1,0 +1,27 @@
+name: Deploy html
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Setup aliyun oss
+        uses: sqwatermark/setup-ossutil@v3.0
+        with:
+          # 对应你 oss存储桶endpoint，香港节点如下
+          endpoint: "oss-cn-hongkong.aliyuncs.com" 
+
+          # 通过secrets隐藏你的阿里云 OSS_ACCESSKEYID
+          access-key-id: ${{ secrets.OSS_ACCESSKEYID }}
+
+          # 通过secrets隐藏你的阿里云 OSS_ACCESSKEYSECRET
+          access-key-secret: ${{ secrets.OSS_ACCESSKEYSECRET }}
+        
+      - name: Deploy docs
+        # 发布文档 
+        # 推送dist的目录文件到对应存储桶，强制同步
+        run: ossutil sync ./ oss://sqwatermark/mcbbs/ -f --delete
