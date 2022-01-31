@@ -29,15 +29,15 @@
                 const s_included=document.getElementById("s_included")
                 const s_included_text=s_included.options[s_included.selectedIndex].text
                 const resource_data_selected=resource_data.filter((e,i)=>(1
+                    &&(s_included_text==""||e.included==s_included_text)
                     &&(s_type_text==""||e.type==s_type_text)
                     &&(s_tag_text==""||(e.tag.split(',')).includes(s_tag_text))
                     &&(s_level_text==""||e.level==s_level_text)
                     &&(s_optifine_text==""||e.optifine==s_optifine_text)
-                    &&(s_from_text==""||e.from==s_from_text)
                     &&(s_resolution_text==""||e.resolution==s_resolution_text)
+                    &&(s_from_text==""||e.from==s_from_text)
                     &&(s_version_low_text==""||version_num[e.low_version]<=version_num[s_version_low_text])
                     &&(s_version_high_text==""||version_num[e.high_version]>=version_num[s_version_high_text])
-                    &&(s_included_text==""||e.included==s_included_text)
                 ))
                 resource_data_selected.forEach((e)=>{createTableLeft(e,e.number)})
             }
@@ -251,24 +251,15 @@
             }
             #left table{ 
                 table-layout:fixed;
+                word-break:break-all;
+                width: 46em;
                 background:#CCC; color:rgb(0, 0, 0);
                 font-family: '微软雅黑';
             } 
             #left table th{
-                background:#CCC; color:rgb(48, 48, 48);
+                background:rgb(231, 231, 231); color:rgb(48, 48, 48);
                 font-family: '楷体'; font-size:1.25em; font-weight: bold;
-            }
-            #left table th{
-                background:rgb(236, 236, 236); 
                 align-items:center;
-            }
-            #left table tr:hover td{
-                background:rgb(231, 231, 231);border-radius: 15%;
-                transition: all.5s;
-            }
-            #left table tr:hover th{
-                background:rgb(231, 231, 231);border-radius: 15%;
-                transition: all.5s;
             }
             #left table td{ 
                 background:#FFF;
@@ -277,6 +268,14 @@
                 text-align: center;
                 vertical-align: middle;
             } 
+            #left table tr:hover td{
+                background:rgb(231, 231, 231);border-radius: 15%;
+                transition: all.5s;
+            }
+            #left table tr:hover th{
+                background:rgb(231, 231, 231);border-radius: 15%;
+                transition: all.5s;
+            }
             #right {
                 float: left;
                 width: calc(100% - 50%);
@@ -297,19 +296,23 @@
                 background-color: rgb(247, 246, 246);
                 overflow:auto;
             }
+            #left_dive_table_top{
+                position:sticky;
+                top: 0em;
+                z-index: 1;
+            }
+            #left_dive_table{
+                position: relative;
+                top: -0.3em;
+            }
             #right_dive table{ width: 100%;} 
             #right_dive table td{background:#FFF ;}
             #right_dive table td:first-child{ width: 30%;} 
         </style>
     </head>
     <body>
-        <!-- <div id="top" onmouseenter="hoverSift()" onmouseleave="leaveSift()"> -->
-
-        <!-- </div> -->
         <div id="left">
-            <table id="left_dive_table", style="width: 46em;table-layout:fixed;word-break:break-all;">
-                <!-- <tr onmouseenter="hoverSift()" onmouseleave="leaveSift()"> -->
-                <!-- <tr style="position:sticky;top: 0.1em;border:1px solid gray;"> -->
+            <table id="left_dive_table_top">
                 <tr>
                     <th style="width: 4.5em">类型</th>
                     <th style="width: 11em">名称</th>
@@ -321,7 +324,6 @@
                     <th style="width: 4em">OptiFine依赖</th>
                     <th style="width: 2.5em">收录</th>
                 </tr>
-                <!-- <tr style="position:sticky;top:3.2em;border:1px solid gray;"> -->
                 <tr>
                     <td>
                         <select id="s_type" onchange="confirmSelected()">
@@ -430,6 +432,19 @@
                     </td>
                 </tr>
             </table>
+            <table id="left_dive_table">
+                <tr>
+                    <th style="width: 4.5em"></th>
+                    <th style="width: 11em"></th>
+                    <th style="width: 5em"></th>
+                    <th style="width: 4em"></th>
+                    <th style="width: 3.5em"></th>
+                    <th style="width: 6em"></th>
+                    <th style="width: 5.5em"></th>
+                    <th style="width: 4em"></th>
+                    <th style="width: 2.5em"></th>
+                </tr>
+            </table>
         </div>
         <div id="right">
             <a id="right_dive_link">
@@ -437,8 +452,7 @@
             </a>
             <div id="right_dive">
                 <table id="right_dive_table"></table>
-            </div>
-            
+            </div>  
         </div>
     </body>
 </html>
