@@ -150,6 +150,8 @@
             function createTableLeft(e,i){
                 e["number"]=i
                 let tr=document.createElement("tr");
+                // 适应手机操作，如果是电脑，表格内容都可点击以便快速筛选，但如果是手机，点击后才能显示这行资源的详细信息，所以把快速筛选功能去掉了
+                if(parseInt(window.screen.width)>=1280) {
                     tr.innerHTML=`
                     <td><div onclick='click_pointer("${e.type}","type")' class='type' style='color:${TagFontColor(e.type)};border-color:${TagBackgroundColor(e.type)};background-color:${TagBackgroundColor(e.type)};'>${e.type}</div></td>
                     <td><a href='${e.link}'>${e.name}</a><img src=${level_img[e.level]}></td>
@@ -162,7 +164,22 @@
                     <td class='pointer' onclick='click_pointer("${e.included}","included")'>${e.included}</td>
                     `
                     tr.setAttribute("onmouseover","hoverImg("+i+")")
-                    tr.setAttribute("class","left_dive_table_tr")
+                }
+                else {
+                    tr.innerHTML=`
+                    <td><div onclick='click_pointer("${e.type}","type")' class='type' style='color:${TagFontColor(e.type)};border-color:${TagBackgroundColor(e.type)};background-color:${TagBackgroundColor(e.type)};'>${e.type}</div></td>
+                    <td><a href='${e.link}'>${e.name}</a><img src=${level_img[e.level]}></td>
+                    <td>${tag_HTML(e)}</td>
+                    <td>${e.level}</td>
+                    <td>${e.from}</td>
+                    <td><span>${e.low_version}</span>~<span>${e.high_version}</span></td>
+                    <td>${e.resolution}</td>
+                    <td>${e.optifine}</td>
+                    <td>${e.included}</td>
+                    `
+                    tr.setAttribute("onclick","hoverImg("+i+")")
+                }
+                tr.setAttribute("class","left_dive_table_tr")
                 document.getElementById("left_dive_table").appendChild(tr)
             }
             function createTableRight(e,i){
@@ -308,6 +325,7 @@
             #right_dive table{ width: 100%;} 
             #right_dive table td{background:#FFF ;}
             #right_dive table td:first-child{ width: 30%;} 
+            /* 适应手机 */
             @media screen and (max-width: 1280px) {
                 #left {
                     width: 100%;
