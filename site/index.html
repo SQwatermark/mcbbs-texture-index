@@ -199,8 +199,14 @@
                 resource_data.forEach(createTableLeft)
                 confirmSelected()
             }
-            //const hoverSift=()=>{document.getElementById("top").style['top']="0";}
-            //const leaveSift=()=>{document.getElementById("top").style['top']="-42%";}
+            // 百度统计
+            var _hmt = _hmt || [];
+            (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2d734b2c7185d17c6bc7d497a292793d";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+            })();
         </script>
         <style type="text/css">
             /* #top{
