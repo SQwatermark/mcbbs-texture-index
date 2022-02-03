@@ -48,7 +48,7 @@
                 if (el=="") {
                     document.getElementById("s_tag").innerHTML = ""
                 } else {
-                    document.getElementById("s_tag").innerHTML = `<div class="tag" onclick='confirmTagChosen("")' style='color:${TagFontColor(el)};border-color:${TagBackgroundColor(el)};background-color:${TagBackgroundColor(el)}; '>${el}</div>`
+                    document.getElementById("s_tag").innerHTML = `<div title="点击取消筛选" class="tag" onclick='confirmTagChosen("")' style='color:${TagFontColor(el)};border-color:${TagBackgroundColor(el)};background-color:${TagBackgroundColor(el)}; '>${el}</div>`
                 }
                 confirmSelected()
             }
@@ -143,7 +143,7 @@
                 let td=""
                 if(e.tag!=""){e.tag.split(',').forEach((el)=>{
                     td=td.concat(`
-                    <div class='tag' onclick='confirmTagChosen(this.innerText)' style='color:${TagFontColor(el)};border-color:${TagBackgroundColor(el)};background-color:${TagBackgroundColor(el)}; '>${el}</div>
+                    <div title="点击筛选" class='tag' onclick='confirmTagChosen(this.innerText)' style='color:${TagFontColor(el)};border-color:${TagBackgroundColor(el)};background-color:${TagBackgroundColor(el)}; '>${el}</div>
                     `)})}
                 return td
             }
@@ -197,48 +197,19 @@
                     
                 `
             }
-            function addButtons() {
-                //一个是新元素，一个是body元素
-                var mybutton,beasetag;
-                //创建新元素
-                mybutton = document.createElement("div");
-                //搜寻body元素
-                beasetag = document.querySelector("body");
-                //将新元素作为子节点插入到body元素的最后一个子节点之后
-                beasetag.appendChild(mybutton);
-                //可以通过mybutton.innerHTML = "<button type='button'>启动</button><br><button type='button'>关闭</button>"来写入其他元素，如多个按钮
-                mybutton.innerHTML = "按钮";
-                //css样式为
-                //position:fixed;生成固定定位的元素，相对于浏览器窗口进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。
-                //bottom:15px;距窗口底部15px
-                //right:15px;距窗口右边15px
-                //width:60px;内容的宽度60px
-                //height:60px;内容的高度60px
-                //background:black;内边距的颜色和内容的颜色设置为黑色，不包括外边距和边框
-                //opacity:0.75;不透明度设置为0.75，1为完全不透明
-                //color:white;指定文本的颜色为白色
-                //text-align:center;指定元素文本的水平对齐方式为居中对齐
-                //line-height:60px;设置行高，通过设置为等于该元素的内容高度的值，配合text-align:center;可以使div的文字居中
-                //cursor:pointer;定义了鼠标指针放在一个元素边界范围内时所用的光标形状为一只手
-                mybutton.style = "position:fixed;bottom:15px;right:15px;width:60px;height:60px;background:black;opacity:0.75;color:white;text-align:center;line-height:60px;cursor:pointer;";
-                //通过匿名函数，设置点击该悬浮按钮后执行的函数
-                mybutton.onclick = function(){alert("这里可以改为调用其他函数");};
-            }
             window.onload=()=>{
-                //addButtons()
                 resource_data.forEach(createTableLeft)
                 confirmSelected()
             }
         </script>
         <style type="text/css">
             /* #top{
-                left: 0%;position:fixed;transition: all.5s;width: 100%;top: -42%;height: 42%;z-index: 99;background-color: rgb(154, 168, 168);
+                left: 0%;transition: all.5s;width: 100%;top: 0%;height: 3em;z-index: 99;background-color: rgb(154, 168, 168);
             } */
             a {
                 color: #000000;
                 text-decoration: none;
             }
-
             a:hover {
                 color:#00A0C6; 
                 text-decoration:none; 
@@ -353,6 +324,16 @@
             #right_dive table{ width: 100%;} 
             #right_dive table td{background:#FFF ;}
             #right_dive table td:first-child{ width: 30%;} 
+            #buttons{
+                position: fixed;
+                bottom: 1em;
+                right: 2em;
+                font-weight: bold;
+                opacity: 25%;
+            }
+            #buttons:hover{
+                opacity: 100%;
+            }
             /* 适应手机 */
             @media screen and (max-width: 1279px) {
                 #left {
@@ -377,6 +358,7 @@
         </script>
     </head>
     <body>
+        <!-- <div id="top" onmouseenter="hoverSift()" onmouseleave="leaveSift()"></div> -->
         <div id="left">
             <table id="left_dive_table_top">
                 <tr>
@@ -385,10 +367,10 @@
                     <th style="width: 5em">标签</th>
                     <th style="width: 4em">图章</th>
                     <th style="width: 3.5em">来源</th>
-                    <th style="width: 6em">版本</th>
+                    <th style="width: 6em" title="资源包具有较强的跨版本兼容性，此处的版本信息仅供参考">版本</th>
                     <th style="width: 5.5em">分辨率</th>
                     <th style="width: 4em">OptiFine依赖</th>
-                    <th style="width: 2.5em">收录</th>
+                    <th style="width: 2.5em" title="仅收录最高版本在1.12以上，未被锁帖，且版主认为具有使用价值的资源">收录</th>
                 </tr>
                 <tr>
                     <td>
@@ -407,7 +389,7 @@
                             <option>活动</option>
                         </select>
                     </td>
-                    <td><input type="text" id="s_name" size="10" oninput="confirmSelected()"></td>
+                    <td><input title="同时筛选名字和标签" type="text" id="s_name" size="10" oninput="confirmSelected()"></td>
                     <td id="s_tag"></td>
                     <td>
                         <select id="s_level" onchange="confirmSelected()">
@@ -430,7 +412,7 @@
                             <option>半原创</option>
                         </select>
                     </td>
-                    <td>
+                    <td title="资源包具有较强的跨版本兼容性，此处的版本信息仅供参考">
                         <select id="s_version_low" onchange="confirmSelected()">
                             <option></option>
                             <option>1.6之前</option>
@@ -489,7 +471,7 @@
                             <option>可选</option>
                         </select>
                     </td>
-                    <td>
+                    <td title="仅收录最高版本在1.12以上，未被锁帖，且版主认为具有使用价值的资源">
                         <select id="s_included" onchange="confirmSelected()">
                             <option></option>
                             <option selected>是</option>
@@ -519,6 +501,11 @@
             <div id="right_dive">
                 <table id="right_dive_table"></table>
             </div>  
+        </div>
+        <div id="buttons">
+            <a title="点击链接加入群聊【MCBBS纹理资源交流群】" href="https://jq.qq.com/?_wv=1027&k=ZcFeOyzE">QQ</a>
+            <a title="MCBBS" href="https://www.mcbbs.net/forum-texture-1.html">MCBBS</a>
+            <a title="GitHub" href="https://github.com/SQwatermark/mcbbs-texture-index">GitHub</a>
         </div>
     </body>
 </html>
