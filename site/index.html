@@ -12,6 +12,8 @@
                 clearTable()
                 const s_type=document.getElementById("s_type")
                 const s_type_text=s_type.options[s_type.selectedIndex].text
+                const s_name=document.getElementById("s_name")
+                const s_name_text=s_name.value
                 const s_tag=document.getElementById("s_tag")
                 const s_tag_text=s_tag.innerText
                 const s_level=document.getElementById("s_level")
@@ -32,6 +34,7 @@
                     &&(s_included_text==""||e.included==s_included_text)
                     &&(s_type_text==""||e.type==s_type_text)
                     &&(s_tag_text==""||(e.tag.split(',')).includes(s_tag_text))
+                    &&(s_name_text==""||e.name.toLowerCase().includes(s_name_text.toLowerCase())||e.tag.toLowerCase().includes(s_name_text.toLowerCase()))
                     &&(s_level_text==""||e.level==s_level_text)
                     &&(s_optifine_text==""||e.optifine==s_optifine_text)
                     &&(s_resolution_text==""||e.resolution==s_resolution_text)
@@ -52,7 +55,6 @@
             function hoverImg(i){
                 const e=resource_data[i]
                 document.getElementById("right_dive_img").style['background-image']='url('+e.img+')'
-                //document.getElementById("right_dive_img").setAttribute("src",e.img)
                 document.getElementById("right_dive_link").setAttribute("href",e.link)
                 createTableRight(e,i)
             }
@@ -195,7 +197,35 @@
                     
                 `
             }
+            function addButtons() {
+                //一个是新元素，一个是body元素
+                var mybutton,beasetag;
+                //创建新元素
+                mybutton = document.createElement("div");
+                //搜寻body元素
+                beasetag = document.querySelector("body");
+                //将新元素作为子节点插入到body元素的最后一个子节点之后
+                beasetag.appendChild(mybutton);
+                //可以通过mybutton.innerHTML = "<button type='button'>启动</button><br><button type='button'>关闭</button>"来写入其他元素，如多个按钮
+                mybutton.innerHTML = "按钮";
+                //css样式为
+                //position:fixed;生成固定定位的元素，相对于浏览器窗口进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。
+                //bottom:15px;距窗口底部15px
+                //right:15px;距窗口右边15px
+                //width:60px;内容的宽度60px
+                //height:60px;内容的高度60px
+                //background:black;内边距的颜色和内容的颜色设置为黑色，不包括外边距和边框
+                //opacity:0.75;不透明度设置为0.75，1为完全不透明
+                //color:white;指定文本的颜色为白色
+                //text-align:center;指定元素文本的水平对齐方式为居中对齐
+                //line-height:60px;设置行高，通过设置为等于该元素的内容高度的值，配合text-align:center;可以使div的文字居中
+                //cursor:pointer;定义了鼠标指针放在一个元素边界范围内时所用的光标形状为一只手
+                mybutton.style = "position:fixed;bottom:15px;right:15px;width:60px;height:60px;background:black;opacity:0.75;color:white;text-align:center;line-height:60px;cursor:pointer;";
+                //通过匿名函数，设置点击该悬浮按钮后执行的函数
+                mybutton.onclick = function(){alert("这里可以改为调用其他函数");};
+            }
             window.onload=()=>{
+                //addButtons()
                 resource_data.forEach(createTableLeft)
                 confirmSelected()
             }
@@ -377,7 +407,7 @@
                             <option>活动</option>
                         </select>
                     </td>
-                    <td></td>
+                    <td><input type="text" id="s_name" size="10" oninput="confirmSelected()"></td>
                     <td id="s_tag"></td>
                     <td>
                         <select id="s_level" onchange="confirmSelected()">
