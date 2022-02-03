@@ -196,6 +196,9 @@
                 `
             }
             window.onload=()=>{
+                var import_data=document.createElement("script");
+                import_data.setAttribute("src","./js/data.js");
+                document.head.appendChild(import_data);
                 resource_data.forEach(createTableLeft)
                 confirmSelected()
             }
